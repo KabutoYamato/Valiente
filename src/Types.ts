@@ -26,7 +26,7 @@ export type createValidatorFunctionOption = {
 type RequiredKeys<T> = {
   [K in keyof T]: Exclude<Optional<T[K]>, T[K]> extends never ? never : K;
 }[keyof T];
-type PickRequired<T> = Pick<T, RequiredKeys<T>>;
+type PickRequired<T extends ValidatorObject> = Pick<T, RequiredKeys<T>>;
 type PickOptional<T extends ValidatorObject> = {
   [K in Exclude<keyof T, RequiredKeys<T>>]?: T[K] extends Optional<infer R> ? R | Nil : never;
 };

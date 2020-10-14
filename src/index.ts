@@ -80,4 +80,37 @@ export function createValienteObject<T extends ValidatorObject>(
     strict: true,
     throwErrors: true,
   }
-) {}
+) {
+  const objectCleanerFunction = (data: ValidatorObjectCleaned<T>) => {
+    const objectCleaner = {} as ValidatorObjectCleaned<T>;
+    Object.keys(validators).forEach((key) => {
+      const validator = validators[key];
+      Object.defineProperty(objectCleaner, `__${key}__`, {
+        value: undefined,
+        writable: true,
+        enumerable: false,
+      });
+      Object.defineProperty(objectCleaner, key, {
+        get: function () {
+          return this[`__${key}__`];
+        },
+        set: function (value: any) {
+          assertVF(validator, value, key);
+          this[`__${key}__`] = value;
+        },
+        enumerable: true,
+      });
+      const value = data[key as keyof typeof data] || options.DefaultNilValue;
+      objectCleaner[key as keyof typeof objectCleaner] = value;
+    });
+    return objectCleaner;
+  };
+  if (name) {
+    try {
+      objectCleanerFunction.name = name as string;
+    } catch {
+      /** do nothing */
+    }
+  }
+  return objectCleanerFunction;
+}

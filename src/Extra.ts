@@ -1,4 +1,8 @@
-import { ValidatorFunction } from "./Types";
+import { OpenObject, ValidatorFunction, ValidatorObject } from "./Types";
+
+export function strictCheck(validators: ValidatorObject, data: OpenObject<any>) {
+  return Object.keys(data).sort().toString() === Object.keys(validators).sort().toString();
+}
 
 export function assertVF<T>(
   validator: ValidatorFunction<T>,
