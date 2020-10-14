@@ -2,13 +2,20 @@
   "name": "valiente",
   "version": "1.0.0",
   "description": "una libreria de validacion para typescript y javascript",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "types": "lib/index.d.ts",
   "scripts": {
     "prepare": "npm run build & echo builded validity",
     "build": "tsc",
     "test": "mocha -r ts-node/register src/**/*.spec.ts",
     "prepack": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KabutoYamato/Valiente.git"
   },
   "keywords": [
     "validar",
